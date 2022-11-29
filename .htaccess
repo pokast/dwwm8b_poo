@@ -1,0 +1,6 @@
+# Activation de la réecriture du moteur du serveur Apache
+RewriteEngine On
+
+    # Si la racine du dossier de l'application est chargée à partir de la barre d'url,
+    # Effectuer une redirection vers la page public 
+    RewriteRule ^(.*)$ public/
