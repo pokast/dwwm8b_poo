@@ -2,6 +2,7 @@
 namespace App;
 
 use App\HttpKernel\HttpKernel;
+use App\Trait\ChangeTimeZone;
 use Psr\Container\ContainerInterface;
 
     /**
@@ -32,11 +33,11 @@ use Psr\Container\ContainerInterface;
 
     class Kernel extends HttpKernel
     {
+        use ChangeTimeZone;
 
-       use changeTimeZone;
-
-        public function __construct(ContainerInterface $container) changeTimeZone() : void
+        public function __construct(ContainerInterface $container)
         {
-            date_default_timezone_set("Europe/Paris");
+            $this->changeTimeZone("Europe/Paris");
+            parent::__construct($container);
         }
     }
