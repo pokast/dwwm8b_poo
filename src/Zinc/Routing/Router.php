@@ -123,7 +123,6 @@ use Symfony\Component\HttpFoundation\Request;
             if (preg_match($pattern, $uri_url, $matches))
             {
                 array_shift($matches);
-                dd($matches);
                 $this->parameters = $matches;
                 return true;
             }

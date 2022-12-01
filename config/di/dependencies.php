@@ -2,6 +2,7 @@
 
 use App\Zinc\Routing\Router;
 use App\Zinc\Routing\RouterInterface;
+use App\Controller\Error\ErrorController;
 use App\Controller\Welcome\WelcomeController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 
         // Liste des contrôleurs
         'controllers'  => [
-            "WelcomeController" => WelcomeController::class 
+            "WelcomeController" => WelcomeController::class, 
+            "ErrorController" => ErrorController::class 
+
         ],
 
 

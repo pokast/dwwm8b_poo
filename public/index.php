@@ -35,4 +35,7 @@ use App\Kernel;
     $response = $kernel->handleRequest();
 
 
+    $response->send();
+
+
     

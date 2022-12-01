@@ -38,8 +38,10 @@ use Symfony\Component\HttpFoundation\Response;
         {
            $router = $this->container->get(RouterInterface::class);
            $router_response = $router->run();
+           $response = $this->getControllerResponse($router_response);
            
-           $this->getControllerResponse($router_response);
+            
+           return $response;
         }
 
 
@@ -56,8 +58,26 @@ use Symfony\Component\HttpFoundation\Response;
         {
             if ( $router_response === null )
             {
-                // Pause
+                $controller = $this->container->get('controllers')['ErrorController'];
+
+                $response = $this->container->call([$controller, 'notFound']);
+
+                
+                return $response;
+
             }
+
+            $controller = $router_response['route']['class']; 
+            $method     = $router_response['route']['method'];
+
+           if ( isset($router_response['parameters']) && !empty($router_response['parameters']))
+           {
+                $parameters = $router_response['parameters'];
+                return $this->container->call([$controller, $method], [$parameters]);
+           }
+
+           return $this->container->call([$controller, $method]);
+
         }
 
     }

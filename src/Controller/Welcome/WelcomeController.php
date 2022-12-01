@@ -14,7 +14,17 @@ class WelcomeController
    
     public function index() : Response
     {
-        dd('welcome');
+       $content = <<<HTML
+       <h1>Hello poto</h1>
+       <p>jhgffdrtyuiioopp</p>
+      
+HTML;
+            return new Response(
+                $content,
+                Response::HTTP_OK,
+                ['content-type' => 'text/html']
+            );
+
     }
 
 
