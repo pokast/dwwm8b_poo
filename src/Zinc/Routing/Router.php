@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 namespace App\Zinc\Routing;
 
+
+use ReflectionClass;
 use App\Zinc\Routing\Route;
 use App\Zinc\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
     class Router implements RouterInterface
     {
+
         /**
-         * Cette propriet" représente la requête injectée dans le router
+         * Cette propriété représente la requête injectée dans le router
          *
          * @var Request
          */
@@ -18,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
         /**
-         * Cette propriété représente le tableau des routes (armoire)
+         * Cette propriété représente le tableau à routes (armoire)
          *
          * @var array
          */
@@ -26,21 +29,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 
         /**
-         * Cette propriété représente la liste des paramètres extraits de l'uri de l'url
+         * Cette propriété représente la liste des paramètres extraits de l'uri de l'url 
          *
          * @var array
          */
         private array $parameters = [];
 
 
+
         public function __construct(Request $request, array $controllers)
         {
-            //dd($request);
             $this->request = $request;
             $this->addRoutes($controllers);
         }
 
-
+        
         /**
          * Cette méthode permet de :
          *      - récupérer les contrôleurs,
@@ -56,7 +59,7 @@ use Symfony\Component\HttpFoundation\Request;
             foreach ($controllers as $controller) 
             {
                 $reflectionController = new \ReflectionClass($controller);
-
+                
                 foreach ($reflectionController->getMethods() as $reflectionMethod) 
                 {
                     $routeAttributes = $reflectionMethod->getAttributes(Route::class);
@@ -65,18 +68,15 @@ use Symfony\Component\HttpFoundation\Request;
                     {
                         $route = $routeAttribute->newInstance();
                         
-                        $this->routes[$route->getName()] = 
-                        [
+                        $this->routes[$route->getName()] = [
                             'class' => $reflectionMethod->class,
                             'method' => $reflectionMethod->name,
-                            'route' => $route
+                            'route'  => $route
                         ];
                     }
                 }
-                
             }
         }
-
 
 
 
@@ -92,25 +92,27 @@ use Symfony\Component\HttpFoundation\Request;
          */
         public function run() : ?array
         {
-            foreach ($this->routes as $route)
-            {
-                if( $this->match($this->request->server->get('REQUEST_URI'), $route['route']->getPath()))
-                {
-                   if ( isset($this->parameters) && !empty($this->parameters))
-                   {
-                       return 
-                       [
-                           "route" => $route,
-                           "parameters" => $this->parameters
-                       ];
-                   }
 
-                   return 
-                   [
-                       "route" => $route,
-                   ];
+
+            foreach ($this->routes as $route) 
+            {
+                
+                if ( $this->match($this->request->server->get('REQUEST_URI'), $route['route']->getPath()) ) 
+                {
+                    if ( isset($this->parameters) && !empty($this->parameters) ) 
+                    {
+                        return [
+                            "route"      => $route,
+                            "parameters" => $this->parameters
+                        ];
+                    }
+
+                    return [
+                        "route" => $route,
+                    ];
                 }
             }
+            
             return null;
         }
 
@@ -120,13 +122,16 @@ use Symfony\Component\HttpFoundation\Request;
             $pattern = preg_replace("#{[a-z]+}#", "([0-9a-zA-Z-_]+)", $uri_route);
             $pattern = "#^$pattern$#";
 
-            if (preg_match($pattern, $uri_url, $matches))
+            if ( preg_match($pattern, $uri_url, $matches) ) 
             {
                 array_shift($matches);
+                // dd($matches);
                 $this->parameters = $matches;
                 return true;
             }
             return false;
         }
+
+
 
     }

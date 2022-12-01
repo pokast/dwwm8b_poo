@@ -1,14 +1,12 @@
 <?php
 namespace App\Zinc\Routing;
 
-//use App\Zinc\Routing\Route;
 use App\Zinc\Routing\RouteInterface;
 
     #[\Attribute(\Attribute::TARGET_METHOD)]
-
     class Route implements RouteInterface
     {
-
+        
         /**
          * Cette méthode représente l'url de la route
          *
@@ -26,9 +24,9 @@ use App\Zinc\Routing\RouteInterface;
 
 
         /**
-         * Cette méthode représente la liste des méthodes autorisées 
+         * Cette méthode représente la liste des méthodes autorisée 
          * pour accéder à la route
-         * 
+         *
          * @var array
          */
         private array $methods = [];
@@ -36,10 +34,11 @@ use App\Zinc\Routing\RouteInterface;
 
         public function __construct(string $path, string $name, array $methods = ['GET'])
         {
-            $this->path    = $path;
-            $this->name    = $name;
-            $this->methods = $methods;
+            $this->path     = $path;
+            $this->name     = $name;
+            $this->methods  = $methods;
         }
+
 
 
         /**
@@ -50,11 +49,12 @@ use App\Zinc\Routing\RouteInterface;
          */
         public function getPath() : string
         {
-           return $this->path;
+            return $this->path;
         }
 
 
-         /**
+
+        /**
          * Cette méthode retourne le nom de la route
          * dont l'application attend la réception
          *
@@ -63,13 +63,13 @@ use App\Zinc\Routing\RouteInterface;
         public function getName() : string
         {
             return $this->name;
+            
         }
 
 
-         /**
-         * Cette méthode retourne la liste des méthodes par lesquelles 
+        /**
+         * Cette méthode retourne la liste des méthodes avec lesquelles
          * on peut accéder à la route
-         * 
          *
          * @return string
          */
@@ -77,5 +77,4 @@ use App\Zinc\Routing\RouteInterface;
         {
             return $this->methods;
         }
-
     }

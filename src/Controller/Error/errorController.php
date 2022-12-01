@@ -9,13 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
     {
         public function notFound() : Response
         {
-            $response = new Response
-            (
+            $response = new Response(
                 'Page non trouvée',
-                Response::HTTP_OK,
+                Response::HTTP_NOT_FOUND,
                 ['content-type' => 'text/html']
             );
-            
+
             return $response;
         }
     }

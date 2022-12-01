@@ -1,6 +1,7 @@
 <?php
 namespace App\Zinc\Routing;
 
+
     interface RouterInterface
     {
 
